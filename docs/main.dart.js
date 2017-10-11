@@ -26178,7 +26178,7 @@ x=S.R(y,"div",this.x)
 this.y=x
 J.X(x,"col")
 this.n(this.y)
-u=y.createTextNode("\n    ")
+u=y.createTextNode("\n\n    ")
 this.x.appendChild(u)
 x=E.t4(this,7)
 this.Q=x
@@ -26302,7 +26302,7 @@ if(y==null){y=$.J.I("",C.d,C.hX)
 $.rs=y}z.H(y)
 this.r=z
 this.e=z.e
-y=new Q.iJ(360,240,"8ixOkJOXdMo")
+y=new Q.iJ(320,240,"8ixOkJOXdMo")
 this.x=y
 x=this.a.e
 z.f=y
@@ -26342,7 +26342,7 @@ m:function(){this.r.v()},
 p:function(){this.r.t(0)},
 $asc:I.N},
 Tr:{"^":"a:0;",
-$0:[function(){return new Q.iJ(360,240,"8ixOkJOXdMo")},null,null,0,0,null,"call"]}}],["","",,T,{"^":"",
+$0:[function(){return new Q.iJ(320,240,"8ixOkJOXdMo")},null,null,0,0,null,"call"]}}],["","",,T,{"^":"",
 pD:function(){var z=J.bh($.E,C.kR)
 return z==null?$.pC:z},
 lj:function(a,b,c,d,e,f,g){$.$get$aw().toString

@@ -13,7 +13,7 @@ import 'package:youtube_player_interop/youtube_player_interop.dart';
 )
 class AppComponent {
 
-  int width = 360;
+  int width = 320;
   int height = 240;
   String videoId = '8ixOkJOXdMo';
 

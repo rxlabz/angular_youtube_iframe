@@ -1,8 +1,6 @@
 name: example
 description: A web app that uses AngularDart Components
 version: 0.0.1
-#homepage: https://www.example.com
-#author: rxlabz <email@example.com>
 
 environment:
   sdk: '>=1.24.0 <2.0.0'
