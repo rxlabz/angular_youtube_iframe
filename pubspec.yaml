@@ -1,16 +1,15 @@
 name: angular_youtube_iframe
-description: A starting point for Dart libraries or applications.
+description: A Youtube player component for AngularDart (4+)
 version: 0.1.0
 homepage: https://github.com/rxlabz/angular_youtube_iframe
 author: rxlabz <dev@rxla.bz>
 
 environment:
-  sdk: '>=1.20.1 <2.0.0'
+  sdk: '>=1.24.0 <2.0.0'
 
 dependencies:
-  angular: '4.0.0'
-  youtube_player_interop:
-      path: /Users/rxlabz/dev/projects/darxlibz/youtube_player_interop
+  angular: '^4.0.0'
+  youtube_player_interop: '^0.1.1'
 
 dev_dependencies:
   test: ^0.12.0

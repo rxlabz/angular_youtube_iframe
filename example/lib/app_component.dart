@@ -24,5 +24,4 @@ class AppComponent {
   void onStateChange(PlayerState state){
     print('AppComponent.onStateChange... $state');
   }
-
 }
