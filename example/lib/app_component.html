@@ -1,0 +1,18 @@
+<h1>Angular Dart Youtube iFrame API</h1>
+
+<div class="row">
+
+    <div class="col"></div>
+
+    <youtube-iframe [playerId]="'ytvideo'" [videoId]="videoId"
+                    [width]="width" [height]="height"
+                    [autoPlay]="true"
+                    [showControls]="false"
+                    [showInfos]="false"
+                    [disableKeyboard]="true"
+                    [embedOnMobile]="true"
+                    (onReady)="onPlayerReady()"
+                    (onStateChange)="onStateChange($event)"
+    ></youtube-iframe>
+
+</div>
