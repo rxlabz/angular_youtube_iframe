@@ -1,19 +1,5 @@
 # angular_youtube_iframe
 
-A library for Dart developers. It is awesome.
+Youtube player component for AngularDart (4+)
 
-## Usage
-
-A simple usage example:
-
-    import 'package:angular_youtube_iframe/angular_youtube_iframe.dart';
-
-    main() {
-      var awesome = new Awesome();
-    }
-
-## Features and bugs
-
-Please file feature requests and bugs at the [issue tracker][tracker].
-
-[tracker]: http://example.com/issues/replaceme
+[Example](https://rxlabz.github.io/angular_youtube_iframe)
