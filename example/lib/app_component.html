@@ -2,17 +2,95 @@
 
 <div class="row">
 
-    <div class="col"></div>
+    <div class="col">
 
-    <youtube-iframe [playerId]="'ytvideo'" [videoId]="videoId"
-                    [width]="width" [height]="height"
-                    [autoPlay]="true"
-                    [showControls]="false"
-                    [showInfos]="false"
-                    [disableKeyboard]="true"
-                    [embedOnMobile]="true"
-                    (onReady)="onPlayerReady()"
-                    (onStateChange)="onStateChange($event)"
-    ></youtube-iframe>
+        <div class="uibox vctr">
+            <material-input #fldVideoId label="VideoID" hintText="Youtube VideoId" ngModel="8ixOkJOXdMo"
+                            (inputKeyPress)="newVideoId = $event"
+                            [error]="errorMsg"></material-input>
+            <material-button label="Load" (trigger)="videoId = newVideoId">
+                <material-icon icon="live_tv" class="primary"></material-icon>
+            </material-button>
+        </div>
+
+        <div class="uibox">
+            <material-input label="Start at" hintText="Start" class="mini"
+                            [ngModel]="videoStart.toString()"
+                            (inputKeyPress)="updateStart($event)"
+            ></material-input>
+            <material-input label="End at" hintText="End" class="mini"
+                            [ngModel]="videoEnd.toString()"
+                            (inputKeyPress)="updateEnd($event)"
+            ></material-input>
+            <material-button (trigger)="updateTimeRange()">
+                <material-icon icon="update" ></material-icon>
+            </material-button>
+        </div>
+
+
+        <material-checkbox #chkControls [checked]="showControls" label="Show controls"
+                           (change)="showControls = chkControls.checked"
+        ></material-checkbox>
+
+        <material-checkbox #chkAutoplay [checked]="autoPlay"
+                           (change)="autoPlay = chkAutoplay.checked"
+                           label="Autoplay"></material-checkbox>
+
+        <material-checkbox #chkInfos [checked]="showInfos"
+                           (change)="showInfos = chkInfos.checked"
+                           label="Show infos"></material-checkbox>
+
+        <material-checkbox #chkBranding [checked]="modestBranding"
+                           (change)="modestBranding = chkBranding.checked"
+                           label="Modest branding"></material-checkbox>
+
+        <material-checkbox #chkInline [checked]="mobilePlaysInline"
+                           (change)="mobilePlaysInline = chkInline.checked"
+                           label="Plays inline (mobile)"></material-checkbox>
+
+        <material-checkbox #chkDisableKB [checked]="disableKeyboard"
+                           (change)="disableKeyboard = chkDisableKB.checked"
+                           label="Disable keyboard"></material-checkbox>
+    </div>
+
+    <div class="col ctr videocol">
+        <youtube-iframe [playerId]="'ytvideo'" [videoId]="videoId"
+                        [start]="videoStart" [end]="videoEnd"
+                        [width]="width" [height]="height"
+                        [autoPlay]="autoPlay"
+                        [showControls]="showControls"
+                        [showInfos]="showInfos"
+                        [disableKeyboard]="disableKeyboard"
+                        [modestBranding]="modestBranding"
+                        [mobilePlaysInline]="mobilePlaysInline"
+                        (onReady)="onPlayerReady($event)"
+                        (onError)="onError($event)"
+                        (onStateChange)="onStateChange($event)"
+        ></youtube-iframe>
+
+        <svg width="100%" height="12">
+            <rect width="100%" height="12" fill="#ccc"></rect>
+            <rect [attr.width]="preloadPercent"
+                  height="12" fill="#bbb"></rect>
+            <rect [attr.width]="progressValue" height="12" fill="#0ac"></rect>
+        </svg>
+
+        <div class="player-bar" *ngIf="player != null">
+
+            <material-button [disabled]="isPlaying" class="primary"
+                             (trigger)="player.playVideo()">
+                <material-icon icon="play_arrow"></material-icon>
+            </material-button>
+            <material-button [disabled]="!isPlaying" class="primary"
+                             (trigger)="player.pauseVideo()">
+                <material-icon icon="pause"></material-icon>
+            </material-button>
+            <material-button [disabled]="!isPlaying" class="primary"
+                             (trigger)="player.stopVideo()">
+                <material-icon icon="stop"></material-icon>
+            </material-button>
+        </div>
+    </div>
+    <pre style="text-align: right; font-size: 0.7rem;padding-right: 1rem;">{{archive}}</pre>
 
 </div>

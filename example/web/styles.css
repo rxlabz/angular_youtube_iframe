@@ -1,22 +1,66 @@
 /* Copyright (c) 2017, rxlabz. All rights reserved. Use of this source code
    is governed by a BSD-style license that can be found in the LICENSE file. */
-
 @import url(https://fonts.googleapis.com/css?family=Roboto);
 @import url(https://fonts.googleapis.com/css?family=Material+Icons);
 
 body {
-  margin: 0 auto;
-  text-align: center;
+    margin: 0 auto;
+    /*text-align: center;*/
 }
 
 * {
-  font-family: Roboto, Helvetica, Arial, sans-serif;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+h1, .uibox{
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
 }
 
-.row{
-  display: flex;
+.minibox{
+    width: 120px;
 }
-.col{
-  display: flex;
-  flex-direction: column;
+
+.row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+}
+
+.player-bar {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: space-around;
+}
+
+.ctr{
+    justify-content: center;
+}
+
+.videocol{
+}
+
+.primary{
+    color: #0ac;
+}
+
+.vctr{
+    display: flex;
+    padding-left: 1rem;
+    align-items: center;
+}
+
+pre{
+    color:#aaa;
+    /*flex-grow: 2;*/
+}
+
+@media (max-width: 600px) {
+    .row{
+        flex-direction: column;
+    }
 }
