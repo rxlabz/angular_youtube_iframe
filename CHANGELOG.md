@@ -1,5 +1,11 @@
 # Changelog
 
-## 0.0.1
+## 0.1.1
 
-- Initial version, created by Stagehand
+- new @Inputs : mobilePlaysInline, modestBranding, start, end,...
+- add a `currentState` property 
+- updated [example](https://rxlabz.github.io/angular_youtube_iframe) 
+
+## 0.1.0
+
+- Initial version

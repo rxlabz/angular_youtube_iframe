@@ -1,6 +1,6 @@
 name: angular_youtube_iframe
 description: A Youtube player component for AngularDart (4+)
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/rxlabz/angular_youtube_iframe
 author: rxlabz <dev@rxla.bz>
 
@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   angular: '^4.0.0'
-  youtube_player_interop: '^0.1.1'
+  youtube_player_interop: '^0.1.2'
 
 dev_dependencies:
   test: ^0.12.0
