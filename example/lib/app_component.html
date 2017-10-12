@@ -75,10 +75,10 @@
             <rect [attr.width]="progressValue" height="12" fill="#0ac"></rect>
         </svg>
 
-        <div class="player-bar" *ngIf="player != null">
+        <div class="player-bar" ngIf*="player != null" >
 
             <material-button [disabled]="isPlaying" class="primary"
-                             (trigger)="player.playVideo()">
+                             (trigger)="play()">
                 <material-icon icon="play_arrow"></material-icon>
             </material-button>
             <material-button [disabled]="!isPlaying" class="primary"

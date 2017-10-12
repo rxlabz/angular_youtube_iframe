@@ -63,7 +63,7 @@ class AppComponent {
   }
 
   void onStateChange(PlayerState state) {
-    print('AppComponent.onStateChange... $state');
+    print('AppComponent.onStateChange... ${state.toString()}');
     log('new state... $state');
     playerState = state;
     if (state == PlayerState.playing)
@@ -85,4 +85,6 @@ class AppComponent {
   void log(String s) {
     archive = "${archive}\n$s";
   }
+
+  void play() => player.playVideo();
 }

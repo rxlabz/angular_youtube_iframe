@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- fix the events callbacks
+
 ## 0.1.1
 
 - new @Inputs : mobilePlaysInline, modestBranding, start, end,...

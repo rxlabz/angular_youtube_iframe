@@ -1,6 +1,6 @@
 name: angular_youtube_iframe
 description: A Youtube player component for AngularDart (4+)
-version: 0.1.1
+version: 0.1.2
 homepage: https://github.com/rxlabz/angular_youtube_iframe
 author: rxlabz <dev@rxla.bz>
 

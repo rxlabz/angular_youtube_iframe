@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:angular/angular.dart';
+import 'package:js/js.dart';
 import 'package:youtube_player_interop/youtube_player_interop.dart';
 
 import '../tube_service.dart';
@@ -158,10 +159,10 @@ class YoutubeIFrame implements OnInit {
               end: _end,
             ),
             events: new Events(
-                onReady: onReady,
-                onStateChange: onStateChange,
-                onError: (EventArgs ev) =>
-                    errorStreamer.add(getError(ev.data)))));
+                onReady: allowInterop(onReady),
+                onStateChange: allowInterop(onStateChange),
+                onError: allowInterop(
+                    (EventArgs ev) => errorStreamer.add(getError(ev.data))))));
     playerState$.listen((s) => currentState = s);
   }
 
@@ -175,8 +176,7 @@ class YoutubeIFrame implements OnInit {
 
   void updatePlayer() {
     if (player != null) {
-      if( currentState == PlayerState.playing)
-        player.stopVideo();
+      if (currentState == PlayerState.playing) player.stopVideo();
       player.destroy();
       createPlayer();
     }
