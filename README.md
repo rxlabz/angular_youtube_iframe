@@ -2,7 +2,7 @@
 
 A Youtube player component for AngularDart (4+) based on [Youtube iFrame interop](https://github.com/rxlabz/youtube_player_interop)
 
-![screenshot](https://rxlabz.github.io/angular_youtube_iframe/screenshot.png)
+![screenshot](https://rxlabz.github.io/angular_youtube_iframe/screenshot.jpg)
 
 [Try the demo](https://rxlabz.github.io/angular_youtube_iframe)
 
