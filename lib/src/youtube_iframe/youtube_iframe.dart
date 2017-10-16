@@ -201,10 +201,10 @@ class YoutubeIFrame implements OnInit {
   @Output('onError')
   Stream<YTPlayerError> get error$ => errorStreamer.stream;
 
-  StreamController<double> durationStreamer = new StreamController<double>();
+  StreamController<num> durationStreamer = new StreamController<num>();
 
   @Output('onDuration')
-  Stream<double> get duration$ => durationStreamer.stream;
+  Stream<num> get duration$ => durationStreamer.stream;
 
   StreamController<num> progressStreamer = new StreamController<num>();
 

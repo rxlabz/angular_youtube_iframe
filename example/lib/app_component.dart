@@ -53,7 +53,9 @@ class AppComponent {
   num progress;
 
   void updateStart(String value) => newVideoStart = int.parse(value);
+
   void updateEnd(String value) => newVideoEnd = int.parse(value);
+
   void updateTimeRange() {
     videoStart = newVideoStart;
     videoEnd = newVideoEnd ?? videoEnd;
@@ -69,7 +71,7 @@ class AppComponent {
     playerState = state;
   }
 
-  void onDuration(double d) => duration = new Duration(seconds: d.toInt());
+  void onDuration(num d) => duration = new Duration(seconds: d.toInt());
 
   void onError(dynamic error) {
     errorMsg = error.toString();
