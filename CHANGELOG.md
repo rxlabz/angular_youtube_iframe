@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3
+
+- components : PlayerToolbar & PlayerProgressBar
+- new player @Input : blockVideoInteraction, showRelated, playlist, list, listType...
+
 ## 0.1.2
 
 - fix the events callbacks
