@@ -23,7 +23,7 @@
                             (inputKeyPress)="updateEnd($event)"
             ></material-input>
             <material-button (trigger)="updateTimeRange()">
-                <material-icon icon="update" ></material-icon>
+                <material-icon icon="update"></material-icon>
             </material-button>
         </div>
 
@@ -51,6 +51,10 @@
         <material-checkbox #chkDisableKB [checked]="disableKeyboard"
                            (change)="disableKeyboard = chkDisableKB.checked"
                            label="Disable keyboard"></material-checkbox>
+
+        <material-checkbox #chkBlockIframeInteraction [checked]="blockVideoInteraction"
+                           (change)="blockVideoInteraction = chkBlockIframeInteraction.checked"
+                           label="Block player interactions"></material-checkbox>
     </div>
 
     <div class="col ctr videocol">
@@ -60,36 +64,22 @@
                         [autoPlay]="autoPlay"
                         [showControls]="showControls"
                         [showInfos]="showInfos"
+                        [blockVideoInteraction]="blockVideoInteraction"
                         [disableKeyboard]="disableKeyboard"
                         [modestBranding]="modestBranding"
                         [mobilePlaysInline]="mobilePlaysInline"
                         (onReady)="onPlayerReady($event)"
                         (onError)="onError($event)"
                         (onStateChange)="onStateChange($event)"
+                        (onDuration)="preloadProgress = $event"
+                        (onPreloadProgress)="preloadProgress = $event"
+                        (onProgress)="progress = $event"
         ></youtube-iframe>
 
-        <svg width="100%" height="12">
-            <rect width="100%" height="12" fill="#ccc"></rect>
-            <rect [attr.width]="preloadPercent"
-                  height="12" fill="#bbb"></rect>
-            <rect [attr.width]="progressValue" height="12" fill="#0ac"></rect>
-        </svg>
+        <player-progress-bar *ngIf="player != null" [progress]="progress" [preload]="preloadProgress"
+        ></player-progress-bar>
 
-        <div class="player-bar" *ngIf="player != null" >
-
-            <material-button [disabled]="isPlaying" class="primary"
-                             (trigger)="play()">
-                <material-icon icon="play_arrow"></material-icon>
-            </material-button>
-            <material-button [disabled]="!isPlaying" class="primary"
-                             (trigger)="player.pauseVideo()">
-                <material-icon icon="pause"></material-icon>
-            </material-button>
-            <material-button [disabled]="!isPlaying" class="primary"
-                             (trigger)="player.stopVideo()">
-                <material-icon icon="stop"></material-icon>
-            </material-button>
-        </div>
+        <player-toolbar [isPlaying]="isPlaying" [player]="player"></player-toolbar>
     </div>
     <pre style="text-align: right; font-size: 0.7rem;padding-right: 1rem;">{{archive}}</pre>
 

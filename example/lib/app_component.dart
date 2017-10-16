@@ -9,14 +9,20 @@ import 'package:youtube_player_interop/youtube_player_interop.dart';
   selector: 'my-app',
   styleUrls: const ['app_component.css'],
   templateUrl: 'app_component.html',
-  directives: const [materialDirectives, YoutubeIFrame, NgIf],
+  directives: const [
+    materialDirectives,
+    YoutubeIFrame,
+    NgIf,
+    PlayerProgressBar,
+    PlayerToolbar
+  ],
   providers: const [materialProviders],
 )
 class AppComponent {
   int width = 320;
   int height = 240;
   int videoStart = 240;
-  int newVideoStart ;
+  int newVideoStart;
   int videoEnd = 1000;
   int newVideoEnd;
   bool showControls = true;
@@ -25,6 +31,7 @@ class AppComponent {
   bool disableKeyboard = false;
   bool modestBranding = false;
   bool mobilePlaysInline = true;
+  bool blockVideoInteraction = true;
   String videoId = '8ixOkJOXdMo';
   String newVideoId = '';
   String errorMsg = '';
@@ -37,50 +44,37 @@ class AppComponent {
   String timeLabel;
 
   Timer ticker;
-  String get currentTime => player?.getCurrentTime().toStringAsFixed(0);
-  String get duration => player?.getDuration().toStringAsFixed(0);
+
+  Duration duration;
 
   bool get isPlaying => playerState == PlayerState.playing;
-  int get progress => player?.getDuration() > 0
-      ? (player?.getCurrentTime() / player?.getDuration() * 100).toInt()
-      : 0;
-  String progressValue;
-  String preloadPercent;
+
+  num preloadProgress;
+  num progress;
 
   void updateStart(String value) => newVideoStart = int.parse(value);
   void updateEnd(String value) => newVideoEnd = int.parse(value);
-  void updateTimeRange(){
+  void updateTimeRange() {
     videoStart = newVideoStart;
     videoEnd = newVideoEnd ?? videoEnd;
   }
-  void onPlayerReady(Player createdPlayer) {
-    log('onPlayerReady...');
-    player = createdPlayer;
 
-    print(
-        'AppComponent.onPlayerReady... ${player?.getCurrentTime()} ${player?.getDuration()}');
-    progressValue = "${progress.toString()}%";
+  void onPlayerReady(Player createdPlayer) {
+    log('PlayerReady...');
+    player = createdPlayer;
   }
 
   void onStateChange(PlayerState state) {
-    print('AppComponent.onStateChange... ${state.toString()}');
-    log('new state... $state');
+    log('$state');
     playerState = state;
-    if (state == PlayerState.playing)
-      ticker = new Timer.periodic(const Duration(seconds: 1), (t) {
-        timeLabel = "${currentTime}/$duration";
-        progressValue = "${progress.toString()}%";
-        preloadPercent = "${player?.getVideoLoadedFraction() * 100}%";
-      });
-    else
-      ticker?.cancel();
   }
+
+  void onDuration(double d) => duration = new Duration(seconds: d.toInt());
 
   void onError(dynamic error) {
     errorMsg = error.toString();
     log("ERROR : $error ");
   }
-
 
   void log(String s) {
     archive = "${archive}\n$s";

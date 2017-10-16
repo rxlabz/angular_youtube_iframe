@@ -1,0 +1,9 @@
+:host {
+  display: block; }
+  :host .player-bar {
+    margin-top: 1rem;
+    /*height: 18px;*/
+    display: flex;
+    justify-content: space-around; }
+
+/*# sourceMappingURL=player_toolbar.css.map */

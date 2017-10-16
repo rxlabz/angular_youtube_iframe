@@ -1,0 +1,14 @@
+<div class="player-bar">
+    <material-button [disabled]="isPlaying" class="primary"
+                     (trigger)="player.playVideo()">
+        <material-icon icon="play_arrow"></material-icon>
+    </material-button>
+    <material-button [disabled]="!isPlaying" class="primary"
+                     (trigger)="player.pauseVideo()">
+        <material-icon icon="pause"></material-icon>
+    </material-button>
+    <material-button [disabled]="!isPlaying" class="primary"
+                     (trigger)="player.stopVideo()">
+        <material-icon icon="stop"></material-icon>
+    </material-button>
+</div>

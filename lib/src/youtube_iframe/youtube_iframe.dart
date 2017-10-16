@@ -9,21 +9,46 @@ import '../tube_service.dart';
 @Component(
   selector: 'youtube-iframe',
   templateUrl: 'youtube_iframe.html',
+  directives: const [NgIf],
   providers: const [TubeService],
   styleUrls: const ['youtube_iframe.css'],
 )
 class YoutubeIFrame implements OnInit {
+
   YoutubeIFrame(this.ytService);
 
   TubeService ytService;
 
   PlayerState currentState = PlayerState.notStarted;
 
-  @Input()
-  int width = 480;
+  Player player;
+
+  Timer ticker;
+
+  String progressValue;
+  String preloadPercent;
+  String timeLabel;
 
   @Input()
-  int height = 360;
+  bool blockVideoInteraction = true;
+
+  num _width = 640;
+
+  num get width => _width;
+
+  @Input()
+  void set width(num width) {
+    _width = width.toInt();
+  }
+
+  num _height = 360;
+
+  num get height => _height;
+
+  @Input()
+  void set height(num height) {
+    _height = height.toInt();
+  }
 
   @Input()
   void set videoId(String value) {
@@ -94,12 +119,29 @@ class YoutubeIFrame implements OnInit {
 
   @Input()
   void set allowFS(bool value) {
-    _allowFS = value;
+    _allowFS = value ? 1 : 0;
     updatePlayer();
   }
 
-  bool _allowFS = false;
-  int get fs => _allowFS ? 1 : 0;
+  int _allowFS = 1;
+
+  @Input()
+  void set showRelated(bool value) {
+    _showRelated = value;
+    updatePlayer();
+  }
+
+  bool _showRelated = false;
+  int get rel => _showRelated ? 1 : 0;
+
+  @Input()
+  void set loop(bool value) {
+    _loop = value;
+    updatePlayer();
+  }
+
+  bool _loop = false;
+  int get _loopVideo => _loop ? 1 : 0;
 
   @Input()
   void set start(int value) {
@@ -117,13 +159,39 @@ class YoutubeIFrame implements OnInit {
 
   int _end = 0;
 
+  @Input()
+  void set playlist(List<String> urls) => _playlist = urls;
+  List<String> _playlist = [];
+
+  @Input()
+
+  /// if listType == 'search' => search query
+  /// if listType == 'user_uploads' => search query
+  /// if listType == 'playlist' => playlist id
+  /// https://developers.google.com/youtube/player_parameters#list
+  void set list(dynamic listValue) => _list = listValue;
+  dynamic _list;
+
+  @Input()
+
+  /// search || user_uploads || playlist
+  /// https://developers.google.com/youtube/player_parameters#listtype
+  void set listType(String value) => _listType = value;
+  String _listType;
+
+  @Input()
+  void set forceCaptions(bool value) => _cc_load_policy = value ? 1 : 0;
+  int _cc_load_policy;
+
   StreamController<Player> readyStreamer =
       new StreamController<Player>.broadcast();
+
   @Output('onReady')
   Stream<Player> get ready$ => readyStreamer.stream;
 
   StreamController<PlayerState> playerStateStreamer =
       new StreamController<PlayerState>.broadcast();
+
   @Output('onStateChange')
   Stream<PlayerState> get playerState$ => playerStateStreamer.stream;
 
@@ -133,7 +201,35 @@ class YoutubeIFrame implements OnInit {
   @Output('onError')
   Stream<YTPlayerError> get error$ => errorStreamer.stream;
 
-  Player player;
+  StreamController<double> durationStreamer = new StreamController<double>();
+
+  @Output('onDuration')
+  Stream<double> get duration$ => durationStreamer.stream;
+
+  StreamController<num> progressStreamer = new StreamController<num>();
+
+  @Output('onProgress')
+  Stream<num> get progress$ => progressStreamer.stream;
+
+  StreamController<num> preloadProgressStreamer = new StreamController<num>();
+
+  @Output('onPreloadProgress')
+  Stream<num> get preloadProgress$ => preloadProgressStreamer.stream;
+
+  StreamController<num> currentTimeStreamer = new StreamController<num>();
+
+  @Output('onCurrentTime')
+  Stream<num> get currentTime$ => currentTimeStreamer.stream.distinct();
+
+  String get currentTime => player.getCurrentTime().toStringAsFixed(0) ?? '';
+
+  String get duration => player.getDuration().toStringAsFixed(0) ?? '';
+
+  bool get isPlaying => currentState == PlayerState.playing;
+
+  num get progress => player?.getDuration() > 0
+      ? (player?.getCurrentTime() / player?.getDuration() * 100)/*.toInt()*/
+      : 0;
 
   @override
   void ngOnInit() => ytService.init(onYTReady);
@@ -148,16 +244,22 @@ class YoutubeIFrame implements OnInit {
             height: height.toString(),
             videoId: _videoId,
             playerVars: new PlayerVars(
-              controls: controls,
-              showinfo: infos,
-              disablekb: disablekb,
-              autoplay: willPlayAuto,
-              enablejsapi: 1,
-              playsinline: playsinline,
-              fs: fs,
-              start: _start,
-              end: _end,
-            ),
+                controls: controls,
+                showinfo: infos,
+                disablekb: disablekb,
+                autoplay: willPlayAuto,
+                enablejsapi: 1,
+                playsinline: playsinline,
+                rel: rel,
+                modestbranding: modestbranding,
+                loop: _loopVideo,
+                fs: _allowFS,
+                start: _start,
+                end: _end,
+                playlist: _playlist,
+                list: _list,
+                listType: _listType,
+                cc_load_policy: _cc_load_policy),
             events: new Events(
                 onReady: allowInterop(onReady),
                 onStateChange: allowInterop(onStateChange),
@@ -172,6 +274,19 @@ class YoutubeIFrame implements OnInit {
 
   void onStateChange(EventArgs eventArgs) {
     playerStateStreamer.add(stateFromInt(eventArgs.data));
+    if (stateFromInt(eventArgs.data) == PlayerState.playing) {
+      durationStreamer.add(player.getDuration());
+      ticker = new Timer.periodic(const Duration(milliseconds: 500), (t) {
+        timeLabel = "${currentTime}/$duration";
+        progressValue = "${progress.toString()}%";
+        progressStreamer.add(progress);
+        final preloadFraction = player.getVideoLoadedFraction()*100;
+        preloadPercent = "${preloadFraction}%";
+        preloadProgressStreamer.add(preloadFraction);
+        currentTimeStreamer.add(player.getCurrentTime());
+      });
+    } else
+      ticker?.cancel();
   }
 
   void updatePlayer() {
@@ -180,5 +295,12 @@ class YoutubeIFrame implements OnInit {
       player.destroy();
       createPlayer();
     }
+  }
+
+  void toggle(){
+    if(isPlaying)
+      player.pauseVideo();
+    else
+      player.playVideo();
   }
 }
