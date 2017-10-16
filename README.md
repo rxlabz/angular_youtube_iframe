@@ -14,11 +14,15 @@ A Youtube player component for AngularDart (4+) based on [Youtube iFrame interop
                 [autoPlay]="autoPlay"
                 [showControls]="showControls"
                 [showInfos]="showInfos"
+                [blockVideoInteraction]="blockVideoInteraction"
                 [disableKeyboard]="disableKeyboard"
                 [modestBranding]="modestBranding"
                 [mobilePlaysInline]="mobilePlaysInline"
                 (onReady)="onPlayerReady($event)"
                 (onError)="onError($event)"
                 (onStateChange)="onStateChange($event)"
+                (onDuration)="duration = $event"
+                (onPreloadProgress)="preloadProgress = $event"
+                (onProgress)="progress = $event"
 ></youtube-iframe>
 ```
